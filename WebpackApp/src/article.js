@@ -1,8 +1,13 @@
 export default class Article{
-    constructor(title, text){
+    constructor(title, text, image){
         this._title = title;
         this._text = text;
         this._date = new Date();
+        this._image = image;
+    }
+
+    get image(){
+        return this._image;
     }
 
     get title(){
@@ -15,5 +20,5 @@ export default class Article{
 
     get date(){
         return this._date;
-    }
+    }   
 }
