@@ -1,9 +1,13 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
-    mode: 'development',
+    mode: 'development',  
+    devServer: {
+        port: 9000
+    } ,
     entry: {
         main: './index.js',
         analitics: './analitcs.js'
@@ -17,7 +21,16 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: "Test webpack",
             template: "./index.html"
-        })
+        }),
+        new CopyPlugin({
+            patterns: [
+                { 
+                  from: path.resolve(__dirname, "src/favicon.ico"), 
+                  to: path.resolve(__dirname, "dist")
+                },
+              
+            ],
+        }),
     ],
     module: {
         rules : [
@@ -32,6 +45,16 @@ module.exports = {
                     name: '[name].[ext]',
                     outputPath: 'images'
                 },
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                  loader: "babel-loader",
+                  options: {
+                    presets: ['@babel/preset-env']
+                  }
+                }
             }
         ]
     }
